@@ -1,21 +1,29 @@
 import React from 'react';
 import './App.css';
+import { connect } from 'react-redux'
 
-function App() {
-  const [state,setState]=React.useState({ age: 21 })
-  function onAgeUp(){
-    setState(prevVal=>{return{...prevVal,age: prevVal.age++}})
+
+function App (props){
+    return (
+      <div className="App">
+        <h3>Age : <span>{props.age}</span></h3>
+        <button onClick={props.onAgeUp}>Age Up</button>
+        <button onClick={props.onAgeDown}>Age Down</button>
+      </div>
+    );
+}
+const mapStateToProps = (state) => {
+  return {
+    age: state.age
   }
-  function onAgeDown(){
-    setState(prevVal=>{return{...prevVal,age: prevVal.age--}})
-  }
-  return (
-    <div className="App">
-      <h3>Age : <span>{state.age}</span></h3>
-      <button onClick={onAgeUp}>Age Up</button>
-      <button onClick={onAgeDown}>Age Down</button>
-    </div>
-  );
 }
 
-export default App;
+const mapDispachToProps = (dispach) => {
+  return {
+    onAgeUp: () => dispach({ type: 'AGE_UP' }),
+    onAgeDown: () => dispach({ type: 'AGE_DOWN' })
+  }
+
+}
+
+export default connect(mapStateToProps, mapDispachToProps)(App);
